@@ -1,4 +1,4 @@
-# varangian - aws + shopify of investment managment
+# varangian - aws + shopify of investment management
 
 ## overview
 

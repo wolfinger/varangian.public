@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "storage";
+
+package storage;
+
+message Inst {
+  // @inject_tag: sql:"type:uuid,pk,default:uuid_generate_v4()"
+  string id           = 1;
+  string ticker_vgn   = 2;
+  string ticker_local = 3;
+  // @inject_tag: sql:"type:uuid"
+  string proxy_inst   = 4;
+}

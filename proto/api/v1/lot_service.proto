@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+option go_package = "api/v1";
+
+import "storage/lot.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+package v1;
+
+message GetLotRequest {
+  string id = 1;
+  string dt = 2;
+}
+
+message GetLotResponse {
+  storage.Lot lot = 1;
+}
+
+message ListLotsRequest {
+  int32 max_page_size = 1;
+  string page_token = 2;
+  string filter = 3;
+  string order_by = 4;
+}
+
+message ListLotsResponse {
+  repeated storage.Lot lots = 1;
+  string next_page_token = 2;
+}
+
+message UpdateLotRequest {
+  string id = 1;
+  storage.Lot lot = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message UpdateLotResponse{
+}
+
+message CreateLotRequest {
+  storage.Lot lot = 1;
+}
+
+message CreateLotResponse {
+  storage.Lot lot = 1;
+}
+
+message DeleteLotRequest {
+  string id = 1;
+}
+
+message DeleteLotResponse {
+}
+
+message RollLotsRequest {
+  string dt = 1;
+  string direction = 2;
+  repeated string lots = 3;
+}
+
+message RollLotsResponse {
+  string status = 1;
+}
+
+service LotService {
+  rpc GetLot (GetLotRequest) returns (GetLotResponse) {
+      option (google.api.http) = {
+        get: "/v1/lots/{id}"
+      };
+  }
+
+  rpc ListLots (ListLotsRequest) returns (ListLotsResponse) {
+    option (google.api.http) = {
+      get: "/v1/lots"
+    };
+  }
+
+  rpc UpdateLot (UpdateLotRequest) returns (UpdateLotResponse) {
+    option (google.api.http) = {
+      patch: "/v1/lots/{id}"
+      body: "lot"
+    };
+  }
+
+  rpc CreateLot (CreateLotRequest) returns (CreateLotResponse) {
+    option (google.api.http) = {
+      post: "/v1/lots"
+      body: "lot"
+    };
+  }
+
+  rpc DeleteLot (DeleteLotRequest) returns (DeleteLotResponse) {
+    option (google.api.http) = {
+      delete: "/v1/lots/{id}"
+    };
+  }
+
+  rpc RollLots (RollLotsRequest) returns (RollLotsResponse) {
+    option (google.api.http) = {
+      post: "/v1/lots:roll"
+      body: "*"
+    };
+  }
+}

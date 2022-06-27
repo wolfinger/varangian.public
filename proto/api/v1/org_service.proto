@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option go_package = "api/v1";
+
+import "storage/org.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+package v1;
+
+message GetOrgRequest {
+  string id = 1;
+}
+
+message GetOrgResponse {
+  storage.Org org = 1;
+}
+
+message ListOrgsRequest{
+}
+
+message ListOrgsResponse {
+  repeated storage.Org orgs = 1;
+}
+
+message UpdateOrgRequest {
+  string id = 1;
+  storage.Org org = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message UpdateOrgResponse{
+}
+
+message CreateOrgRequest {
+  storage.Org org = 1;
+}
+
+message CreateOrgResponse {
+  storage.Org org = 1;
+}
+
+message DeleteOrgRequest {
+  string id = 1;
+}
+
+message DeleteOrgResponse {
+}
+
+service OrgService {
+  rpc GetOrg (GetOrgRequest) returns (GetOrgResponse) {
+      option (google.api.http) = {
+        get: "/v1/orgs/{id}"
+      };
+  }
+
+  rpc ListOrgs (ListOrgsRequest) returns (ListOrgsResponse) {
+    option (google.api.http) = {
+      get: "/v1/orgs"
+    };
+  }
+
+  rpc UpdateOrg (UpdateOrgRequest) returns (UpdateOrgResponse) {
+    option (google.api.http) = {
+      patch: "/v1/orgs/{id}"
+      body: "org"
+    };
+  }
+
+  rpc CreateOrg (CreateOrgRequest) returns (CreateOrgResponse) {
+    option (google.api.http) = {
+      post: "/v1/orgs"
+      body: "*"
+    };
+  }
+
+  rpc DeleteOrg (DeleteOrgRequest) returns (DeleteOrgResponse) {
+    option (google.api.http) = {
+      delete: "/v1/orgs/{id}"
+    };
+  }
+}

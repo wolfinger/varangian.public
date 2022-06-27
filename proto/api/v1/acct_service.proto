@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+option go_package = "api/v1";
+
+import "storage/acct.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+package v1;
+
+message GetAcctRequest {
+  string id = 1;
+}
+
+message GetAcctResponse {
+  storage.Acct acct = 1;
+}
+
+message ListAcctsRequest {
+}
+
+message ListAcctsResponse {
+  repeated storage.Acct accts = 1;
+}
+
+
+message UpdateAcctRequest {
+  string id = 1;
+  storage.Acct acct = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message UpdateAcctResponse {
+}
+
+message CreateAcctRequest {
+  storage.Acct acct = 1;
+}
+
+message CreateAcctResponse {
+  storage.Acct acct = 1;
+}
+
+message DeleteAcctRequest {
+  string id = 1;
+}
+
+message DeleteAcctResponse{
+}
+
+service AcctService {
+  rpc GetAcct (GetAcctRequest) returns (GetAcctResponse) {
+      option (google.api.http) = {
+        get: "/v1/accts/{id}"
+      };
+  }
+
+  rpc ListAccts (ListAcctsRequest) returns (ListAcctsResponse) {
+    option (google.api.http) = {
+      get: "/v1/accts"
+    };
+  }
+
+  rpc UpdateAcct (UpdateAcctRequest) returns (UpdateAcctResponse) {
+    option (google.api.http) = {
+      patch: "/v1/accts/{id}"
+      body: "acct"
+    };
+  }
+
+  rpc CreateAcct (CreateAcctRequest) returns (CreateAcctResponse) {
+    option (google.api.http) = {
+      post: "/v1/accts"
+      body: "acct"
+    };
+  }
+
+  rpc DeleteAcct (DeleteAcctRequest) returns (DeleteAcctResponse) {
+    option (google.api.http) = {
+      delete: "/v1/accts/{id}"
+    };
+  }
+}

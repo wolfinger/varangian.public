@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option go_package = "api/v1";
+
+import "storage/inst.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+package v1;
+
+message GetInstRequest {
+  string id = 1;
+}
+
+message GetInstResponse {
+  storage.Inst inst = 1;
+}
+
+message ListInstsRequest {
+}
+
+message ListInstsResponse {
+  repeated storage.Inst insts = 1;
+}
+
+message UpdateInstRequest {
+  string id = 1;
+  storage.Inst inst = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message UpdateInstResponse {
+}
+
+message CreateInstRequest {
+  storage.Inst inst = 1;
+}
+
+message CreateInstResponse {
+  storage.Inst inst = 1;
+}
+
+message DeleteInstRequest {
+  string id = 1;
+}
+
+message DeleteInstResponse {
+}
+
+service InstService {
+  rpc GetInst (GetInstRequest) returns (GetInstResponse) {
+      option (google.api.http) = {
+        get: "/v1/insts/{id}"
+      };
+  }
+
+  rpc ListInsts (ListInstsRequest) returns (ListInstsResponse) {
+    option (google.api.http) = {
+      get: "/v1/insts"
+    };
+  }
+
+  rpc UpdateInst (UpdateInstRequest) returns (UpdateInstResponse) {
+    option (google.api.http) = {
+      patch: "/v1/insts/{id}"
+      body: "inst"
+    };
+  }
+
+  rpc CreateInst (CreateInstRequest) returns (CreateInstResponse) {
+    option (google.api.http) = {
+      post: "/v1/insts"
+      body: "*"
+    };
+  }
+
+  rpc DeleteInst (DeleteInstRequest) returns (DeleteInstResponse) {
+    option (google.api.http) = {
+      delete: "/v1/insts/{id}"
+    };
+  }
+}

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option go_package = "storage";
+
+package storage;
+
+message LotBal {
+  // @inject_tag: pg:"type:uuid,pk"
+  string lot_id         = 1;
+  // @inject_tag: pg:",pk"
+  string lot_dt         = 2;
+  // @inject_tag: pg:",use_zero"
+  double lot_size       = 3;
+  // @inject_tag: pg:",use_zero"
+  double settled_size   = 4;
+  // @inject_tag: pg:",use_zero"
+  double unsettled_size = 5;
+}
+
+message Lot {
+  // @inject_tag: pg:"type:uuid,pk,default:uuid_generate_v4()"
+  string id            = 1;
+  // @inject_tag: pg:"type:uuid"
+  string inst_id       = 2;
+  // @inject_tag: pg:"type:uuid"
+  string src_txn_id    = 3;
+  string orig_dt       = 4;
+  double orig_size     = 5;
+  // @inject_tag: pg:"type:uuid"
+  string le_org_id     = 6;
+  // @inject_tag: pg:"type:uuid"
+  string acct_id       = 7;
+  // @inject_tag: pg:"rel:has-many"
+  repeated LotBal bal  = 8;
+}

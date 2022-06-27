@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option go_package = "api/v1";
+
+import "storage/strat.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+package v1;
+
+message GetStratRequest {
+  string id = 1;
+}
+
+message GetStratResponse {
+  storage.Strat strat = 1;
+}
+
+message ListStratsRequest {
+}
+
+message ListStratsResponse {
+  repeated storage.Strat strats = 1;
+}
+
+message UpdateStratRequest {
+  string id = 1;
+  storage.Strat strat = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message UpdateStratResponse {
+}
+
+message CreateStratRequest {
+  storage.Strat strat = 1;
+}
+
+message CreateStratResponse {
+  storage.Strat strat = 1;
+}
+
+message DeleteStratRequest {
+  string id = 1;
+}
+
+message DeleteStratResponse {
+}
+
+service StratService {
+  rpc GetStrat (GetStratRequest) returns (GetStratResponse) {
+      option (google.api.http) = {
+        get: "/v1/strats/{id}"
+      };
+  }
+
+  rpc ListStrats (ListStratsRequest) returns (ListStratsResponse) {
+    option (google.api.http) = {
+      get: "/v1/strats"
+    };
+  }
+
+  rpc UpdateStrat (UpdateStratRequest) returns (UpdateStratResponse) {
+    option (google.api.http) = {
+      patch: "/v1/strats/{id}"
+      body: "strat"
+    };
+  }
+
+  rpc CreateStrat (CreateStratRequest) returns (CreateStratResponse) {
+    option (google.api.http) = {
+      post: "/v1/strats"
+      body: "*"
+    };
+  }
+
+  rpc DeleteStrat (DeleteStratRequest) returns (DeleteStratResponse) {
+    option (google.api.http) = {
+      delete: "/v1/strats/{id}"
+    };
+  }
+}

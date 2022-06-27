@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+option go_package = "api/v1";
+
+import "storage/txn.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+package v1;
+
+message GetTxnRequest {
+  string id = 1;
+}
+
+message GetTxnResponse {
+  storage.Txn txn = 1;
+}
+
+message ListTxnsRequest {
+  int32 max_page_size = 1;
+  string page_token = 2;
+  string filter = 3;
+  string order_by = 4;
+}
+
+message ListTxnsResponse {
+  repeated storage.Txn txns = 1;
+  string next_page_token = 2;
+}
+
+message UpdateTxnRequest {
+  string id = 1;
+  storage.Txn txn = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message UpdateTxnResponse {
+}
+
+message CreateTxnRequest {
+  storage.Txn txn = 1;
+}
+
+message CreateTxnResponse {
+  storage.Txn txn = 1;
+}
+
+message DeleteTxnRequest {
+  string id = 1;
+}
+
+message DeleteTxnResponse {
+}
+
+message ProcessTxnRequest {
+  string id = 1;
+  repeated string lot_ids = 2;
+}
+
+message ProcessTxnResponse {
+  string id = 1;
+  string state = 2;
+}
+
+service TxnService {
+  rpc GetTxn (GetTxnRequest) returns (GetTxnResponse) {
+      option (google.api.http) = {
+        get: "/v1/txns/{id}"
+      };
+  }
+
+  rpc ListTxns (ListTxnsRequest) returns (ListTxnsResponse) {
+    option (google.api.http) = {
+      get: "/v1/txns"
+    };
+  }
+
+  rpc UpdateTxn (UpdateTxnRequest) returns (UpdateTxnResponse) {
+    option (google.api.http) = {
+      patch: "/v1/txns/{id}"
+      body: "txn"
+    };
+  }
+
+  rpc CreateTxn (CreateTxnRequest) returns (CreateTxnResponse) {
+    option (google.api.http) = {
+      post: "/v1/txns"
+      body: "txn"
+    };
+  }
+
+  rpc DeleteTxn (DeleteTxnRequest) returns (DeleteTxnResponse) {
+    option (google.api.http) = {
+      delete: "/v1/txns/{id}"
+    };
+  }
+
+  rpc ProcessTxn (ProcessTxnRequest) returns (ProcessTxnResponse) {
+    option (google.api.http) = {
+      post: "/v1/txns/{id}:process"
+      body: "*"
+    };
+  }
+}

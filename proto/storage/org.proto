@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option go_package = "storage";
+
+package storage;
+
+message Org {
+  // @inject_tag: sql:"type:uuid,pk,default:uuid_generate_v4()"
+  string id        = 1;
+  string name      = 2;
+  // @inject_tag: sql:"type:uuid"
+  string parent_id = 3;
+}

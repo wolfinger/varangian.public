@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package = "storage";
+
+import "google/protobuf/timestamp.proto";
+
+package storage;
+
+message Txn {
+  // @inject_tag: sql:"type:uuid,pk,default:uuid_generate_v4()"
+  string id           = 1;
+  string txn_dt       = 2;
+  string settle_dt    = 3;
+  string txn_type     = 4;
+  string txn_sub_type = 5;
+  double txn_size     = 6;
+  // @inject_tag: sql:"type:uuid"
+  string inst_id      = 7;
+  // @inject_tag: sql:"type:uuid"
+  string parent_id    = 8;
+  // @inject_tag: sql:"type:uuid"
+  string src_lot_id   = 9;
+  string tgt_lot_id   = 10;
+  string state        = 11;
+  // @inject_tag: sql:"type:uuid"
+  string trade_amt_ccy_id  = 12;
+  double trade_amt_gross   = 13;
+  double trade_amt_net     = 14;
+  // @inject_tag: sql:"type:uuid"
+  string settle_amt_ccy_id = 15;
+  double settle_amt_gross  = 16;
+  double settle_amt_net    = 17;
+}

@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+option go_package = "api/v1";
+
+import "storage/port.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/field_mask.proto";
+
+package v1;
+
+message GetPortRequest {
+  string id = 1;
+}
+
+message GetPortResponse {
+  storage.Port port = 1;
+}
+
+message ListPortsRequest {
+}
+
+message ListPortsResponse {
+  repeated storage.Port ports = 1;
+}
+
+message UpdatePortRequest {
+  string id = 1;
+  storage.Port port = 2;
+  google.protobuf.FieldMask update_mask = 3;
+}
+
+message UpdatePortResponse {
+}
+
+message CreatePortRequest {
+  storage.Port port = 1;
+}
+
+message CreatePortResponse {
+  storage.Port port = 1;
+}
+
+message DeletePortRequest {
+  string id = 1;
+}
+
+message DeletePortResponse{
+}
+
+service PortService {
+  rpc GetPort (GetPortRequest) returns (GetPortResponse) {
+      option (google.api.http) = {
+        get: "/v1/ports/{id}"
+      };
+  }
+
+  rpc ListPorts (ListPortsRequest) returns (ListPortsResponse) {
+    option (google.api.http) = {
+      get: "/v1/ports"
+    };
+  }
+
+  rpc UpdatePort (UpdatePortRequest) returns (UpdatePortResponse) {
+    option (google.api.http) = {
+      patch: "/v1/ports/{id}"
+      body: "port"
+    };
+  }
+
+  rpc CreatePort (CreatePortRequest) returns (CreatePortResponse) {
+    option (google.api.http) = {
+      post: "/v1/ports"
+      body: "*"
+    };
+  }
+
+  rpc DeletePort (DeletePortRequest) returns (DeletePortResponse) {
+    option (google.api.http) = {
+      delete: "/v1/ports/{id}"
+    };
+  }
+}

@@ -117,13 +117,12 @@ tablename: `txns`
 | parent_id   | `vxid`    | fk(`txns`) |          | vxid linking to a parent txn. null if there is no parent |
 | lot_id      | `vxid`    | fk(`lots`) |          | vxid linking txn to a specific lot (e.g., allocating transactions) |
 | state       | `text`    |            |          | state of the transaction. used primarily to indicate unprocessed txns |
-
-| trade_amt_ccy | `vxid` | fk(`insts`) |          | vxid of the trade currency
-| trade_amt_gross | `float8` |         |          | gross trade amount
-| trade_amt_net | `float8` |           |          | net (of fees) trade amount
-| settle_amt_ccy | `vxid` | fk(`insts`) |         | vxid of the settlement currency
-| settle_amt_gross | `float8` |        |          | gross settle amount
-| settle_amt_net | `float8` |          |          | net (of fees) settle amount
+| trade_amt_ccy | `vxid` | fk(`insts`) |          | vxid of the trade currency |
+| trade_amt_gross | `float8` |         |          | gross trade amount |
+| trade_amt_net | `float8` |           |          | net (of fees) trade amount |
+| settle_amt_ccy | `vxid` | fk(`insts`) |         | vxid of the settlement currency |
+| settle_amt_gross | `float8` |        |          | gross settle amount |
+| settle_amt_net | `float8` |          |          | net (of fees) settle amount |
 
 `txn_type`
 - `multileg` - parent transaction of a package of transactions
